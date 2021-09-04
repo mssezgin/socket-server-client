@@ -1,0 +1,59 @@
+
+login
+SUCCESSFUL|LOGGED_IN|userid|admin|username|password|email|name|lastname|gender|dateofbirth|inbox|sent
+SUCCESSFUL|LOGGED_IN|463247|1|mssezgin|safak|abc@xyz.com|Mustafa|Sezgin|M|2000-05-02|{12,23}|{11,13,24}
+
+logout
+SUCCESSFUL|LOGGED_OUT
+SUCCESSFUL|LOGGED_OUT
+
+send message
+SUCCESSFUL|MSG_SENT|msgid
+SUCCESSFUL|MSG_SENT|147
+
+show message
+SUCCESSFUL|MSG_INFO|msgid|when|from|to|body
+SUCCESSFUL|MSG_INFO|146|2021-07-28 22:54:30|rootadmin|mssezgin|naber?
+
+old - show inbox, sent
+SUCCESSFUL|[INBOX,SENT]_INFO|length|msgid1|when1|from1|to1|body1
+                                   |msgid2|when2|from2|..
+SUCCESSFUL|INBOX_INFO|2|146|2021-07-28 22:54:30|rootadmin|mssezgin|naber?
+                       |148|2021-07-29 00:00:24|testusr|mssezgin|hello.
+
+show inbox, sent
+SUCCESSFUL|[INBOX,SENT]_INFO|inbox
+SUCCESSFUL|[INBOX,SENT]_INFO|{45,47,52}
+
+create, show, update user
+SUCCESSFUL|USER_INFO|userid|admin|username|password|email|name|lastname|gender|dateofbirth|inbox|sent
+SUCCESSFUL|USER_INFO|463247|1|mssezgin|safak|abc@xyz.com|Mustafa|Sezgin|M|2000-05-02|{12,23}|{11,13,24}
+
+delete user
+SUCCESSFUL|USER_DELETED|userid
+SUCCESSFUL|USER_DELETED|124
+
+--------------------
+
+ERROR|ERROR_TYPE|errormsg
+
+login error
+ERROR|LOGIN_ERROR|Invalid username or password.
+
+logout error
+ERROR|LOGOUT_ERROR|Could not log you out.
+
+authorization error
+ERROR|NO_AUTHORIZATION|You need to be an admin.
+
+user not found
+ERROR|NOT_FOUND|User not found.
+
+sql exception
+ERROR|SQLEXCEPTION|Erroneous SQL query.
+
+command failed
+ERROR|COMMAND_FAILED|Cannot create the user. Probably the username already exists.
+
+invalid command
+ERROR|INVALID_COMMAND|Invalid command.

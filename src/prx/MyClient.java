@@ -9,7 +9,7 @@ public class MyClient {
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static User me = null;
 
-    // request
+    // requests
     public static String requestLogin() throws IOException {
 
         String req = "LOGIN";
@@ -54,7 +54,7 @@ public class MyClient {
     }
 
     public static void printHelp() {
-        // TODO: prepare and print help page
+        // TODO: improve this help page
         System.out.println("Valid commands are\n" +
                 "\tLOGOUT, SENDMSG, SHOWMSG, SHOWINBOX, SHOWSENT,\n" +
                 "\tCREATEUSER, DELETEUSER, SHOWUSER, UPDATEUSER.");
@@ -202,7 +202,7 @@ public class MyClient {
         return req;
     }
 
-    // response
+    // responses
     public static void responseLoggedIn(String[] tokens) {
         me = new User(Arrays.copyOfRange(tokens, 2, 13));
         System.out.println("Login successful. Type HELP to see commands.");
@@ -261,7 +261,6 @@ public class MyClient {
             outputStream = new DataOutputStream(socket.getOutputStream());
             System.out.println("Connected to the server.");
         } catch (IOException e) {
-            // e.printStackTrace();
             System.out.println("ERROR :: Could not connect to the server.");
             return;
         }

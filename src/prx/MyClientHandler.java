@@ -53,19 +53,7 @@ public class MyClientHandler extends Thread {
     }
 
     public String respondShowMsg(String[] tokens) throws SQLException, IOException {
-        /* String resp = null;
-        Message msg = db.showMessage(Integer.parseInt(tokens[2]));
 
-        if (msg != null && !msg.from.equals(client.getUsername()) && !msg.to.equals(client.getUsername())) {
-            int auth = client.authorize(inputStream, outputStream, db);
-            if (auth == 0) {
-                resp = "ERROR|NO_AUTHORIZATION|You need to be an admin.";
-                return resp;
-            } else if (auth == -1) {
-                resp = "ERROR|LOGIN_ERROR|Invalid username or password.";
-                return resp;
-            }
-        } */
         String resp;
         if (!db.inboxSentContainsMessage(tokens[1], Integer.parseInt(tokens[2]))) {
             int auth = client.authorize(inputStream, outputStream, db);
@@ -242,7 +230,7 @@ public class MyClientHandler extends Thread {
                 outputStream.writeUTF(resp);
 
                 // logout
-                // TODO: delete this dummy logout
+                // TODO: improve this
                 if (tokens[0].equals("LOGOUT") && resp.contains("SUCCESSFUL") && resp.contains("LOGGED_OUT")) {
                     System.out.println("< Client logged out. Client handler terminated.");
                     socket.close();
@@ -258,13 +246,11 @@ public class MyClientHandler extends Thread {
                 try {
                     outputStream.writeUTF("ERROR|SQLEXCEPTION|SQLException caught.");
                 } catch (IOException ioex) {
-                    // outputStream.writeUTF("ERROR|EXCEPTION|IOException");
                     System.out.println("ERROR|SQLEXCEPTION|SQLException caught.");
                 }
 
             } catch (IOException ioex) {
 
-                // e.printStackTrace();
                 try {
                     System.out.println("< WARNING :: IOException. Client handler terminated.");
                     socket.close();

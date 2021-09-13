@@ -20,34 +20,6 @@ public class MyDB {
             rs = st.executeQuery("SELECT * FROM Messages LIMIT 1;");
         } catch (SQLException e) {
             Statement st = con.createStatement();
-            /* st.executeUpdate(
-                    "CREATE TABLE Users (" +
-                        "userid serial NOT NULL," +
-                        "admin bit NOT NULL," +
-                        "username text NOT NULL," +
-                        "password text NOT NULL," +
-                        "email text," +
-                        "name text," +
-                        "lastname text," +
-                        "gender \"char\"," +
-                        "dateofbirth date," +
-                        "inbox integer[] DEFAULT '{}'," +
-                        "sent integer[] DEFAULT '{}'," +
-                        "PRIMARY KEY (userid)," +
-                        "UNIQUE (userid, username, email)" +
-                    ");"
-            );
-            st.executeUpdate(
-                    "CREATE TABLE Messages (" +
-                        "msgid serial NOT NULL," +
-                        "\"when\" timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP(0)," +
-                        "\"from\" text NOT NULL," +
-                        "\"to\" text NOT NULL," +
-                        "body text," +
-                        "PRIMARY KEY (msgid)," +
-                        "UNIQUE (msgid)" +
-                    ");"
-            ); */
             String query = "CREATE TABLE Users (" +
                     "userid serial NOT NULL, " +
                     "admin bit NOT NULL, " +
@@ -82,7 +54,6 @@ public class MyDB {
             st.executeUpdate(query);
             st.close();
             System.out.println("Users and Messages tables do not exist. Created new ones.");
-            // e.printStackTrace();
         }
     }
 
@@ -117,13 +88,8 @@ public class MyDB {
                     "DEFAULT, " +
                     "DEFAULT" +
                 ") RETURNING userid;";
+
         Statement st = con.createStatement();
-        /* ResultSet rs = st.executeQuery(query);
-        if (rs.next()) {
-            return rs.getInt(1);
-        } else {
-            return 0;
-        } */
         try {
             ResultSet rs = st.executeQuery(query);
             if (rs.next())
@@ -136,7 +102,7 @@ public class MyDB {
     }
 
     public boolean deleteUser(User user) throws SQLException {
-        // TODO close st
+
         Statement st = con.createStatement();
         try {
             st.executeUpdate("DELETE FROM Users WHERE userid=" + user.getUserID() +
@@ -148,7 +114,7 @@ public class MyDB {
     }
 
     public User showUser(int userid) throws SQLException {
-        // TODO close rs and st
+
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM Users WHERE userid=" + userid + ";");
         if (rs.next()) {
@@ -159,7 +125,7 @@ public class MyDB {
     }
 
     public User showUser(String username) throws SQLException {
-        // TODO close rs and st
+
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM Users WHERE username='" + username + "';");
         if (rs.next()) {
@@ -170,7 +136,7 @@ public class MyDB {
     }
 
     public User updateUser(User user, User extension) throws SQLException {
-        // TODO close rs and st
+
         String[] cred = extension.getCredentials();
         String columns = (cred[1].isBlank() ? "" : "admin="        + cred[1] + "::bit|") +
                 (cred[2].isBlank() ? "" : "username='"    + cred[2] + "'|") +
@@ -183,6 +149,7 @@ public class MyDB {
         columns = String.join(", ", columns.split("\\|"));
         String query = "UPDATE Users SET " + columns +
                 " WHERE userid=" + user.getUserID() + " AND username='" + user.getUsername() + "';";
+
         Statement st = con.createStatement();
         try {
             st.executeUpdate(query);
@@ -193,7 +160,7 @@ public class MyDB {
     }
 
     public int sendMessage(User from, User to, Message msg) throws SQLException {
-        // TODO close rs and st
+
         if (to == null) return 0;
 
         Statement st = con.createStatement();
@@ -214,28 +181,8 @@ public class MyDB {
         return msgID;
     }
 
-    /* public int saveMessage(Message msg) throws SQLException {
-        // TODO close rs and st
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery(
-                "INSERT INTO Messages (\"from\", \"to\", body) VALUES ('" +
-                msg.from + "', '" + msg.to + "', '" + msg.body + "') RETURNING msgid;"
-        );
-        // TODO: rs.next() might be false
-        rs.next();
-        int msgId = rs.getInt("msgid");
-
-        st.executeUpdate("UPDATE Users SET sent=ARRAY_APPEND(sent, " +
-                String.valueOf(msgId) + ") WHERE username='" + msg.from + "';"
-        );
-        st.executeUpdate("UPDATE Users SET inbox=ARRAY_APPEND(inbox, " +
-                String.valueOf(msgId) + ") WHERE username='" + msg.to + "';"
-        );
-        return msgId;
-    } */
-
     public Message showMessage(int msgid) throws SQLException {
-        // TODO close rs and st
+
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM Messages WHERE msgid=" + msgid + ";");
         if (rs.next()) {
@@ -246,36 +193,15 @@ public class MyDB {
     }
 
     public boolean inboxSentContainsMessage(String username, int msgid) throws SQLException {
-        // TODO close rs and st
+
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM users WHERE username='" + username + "' " +
                 "AND (inbox @> ARRAY[" + msgid + "] OR sent @> ARRAY[" + msgid + "]);");
         return rs.next();
     }
 
-    // TODO: change parameter with a User object
-    /* public Message[] showInboxSent(String username, String is) throws SQLException {
-        // TODO close rs and st
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT " + is + " FROM Users WHERE username='" + username + "';");
-        if (!rs.next())
-            return null;
-
-        String rsStr = rs.getString(is);
-        String[] msgIDs = rsStr.substring(1, rsStr.length() - 1).split(",", -1);
-        Message[] msgs = new Message[msgIDs.length];
-
-        for (int i = 0; i < msgIDs.length; ++i) {
-            // TODO: do not search for msgid one by one
-            rs = st.executeQuery("SELECT * FROM Messages WHERE msgid=" + msgIDs[i] + ";");
-            if (rs.next())
-                msgs[i] = new Message(rs);
-        }
-
-        return msgs;
-    } */
     public String showInboxSent(String username, String is) throws SQLException {
-        // TODO close rs and st
+
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery("SELECT " + is + " FROM Users WHERE username='" + username + "';");
         if (rs.next()) {

@@ -20,7 +20,6 @@ public class MyServer {
             serverSocket = new ServerSocket(port);
             System.out.println("Server started.");
         } catch (IOException e) {
-            // e.printStackTrace();
             System.out.println("ERROR :: Server could not be started.");
             return;
         }
@@ -30,7 +29,6 @@ public class MyServer {
         try {
             db.connectDB();
         } catch (SQLException e) {
-            // e.printStackTrace();
             System.out.println("ERROR :: Could not connect to database.");
             // serverSocket.close();
             return;

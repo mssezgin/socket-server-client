@@ -1,4 +1,3 @@
-
 login
 SUCCESSFUL|LOGGED_IN|userid|admin|username|password|email|name|lastname|gender|dateofbirth|inbox|sent
 SUCCESSFUL|LOGGED_IN|463247|1|mssezgin|safak|abc@xyz.com|Mustafa|Sezgin|M|2000-05-02|{12,23}|{11,13,24}
@@ -14,12 +13,6 @@ SUCCESSFUL|MSG_SENT|147
 show message
 SUCCESSFUL|MSG_INFO|msgid|when|from|to|body
 SUCCESSFUL|MSG_INFO|146|2021-07-28 22:54:30|rootadmin|mssezgin|naber?
-
-old - show inbox, sent
-SUCCESSFUL|[INBOX,SENT]_INFO|length|msgid1|when1|from1|to1|body1
-                                   |msgid2|when2|from2|..
-SUCCESSFUL|INBOX_INFO|2|146|2021-07-28 22:54:30|rootadmin|mssezgin|naber?
-                       |148|2021-07-29 00:00:24|testusr|mssezgin|hello.
 
 show inbox, sent
 SUCCESSFUL|[INBOX,SENT]_INFO|inbox
